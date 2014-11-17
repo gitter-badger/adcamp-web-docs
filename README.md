@@ -6,7 +6,7 @@ SDK AdCamp для мобильных WEB-страниц позволяет ра�
 **Пример:**
 ```
 <!-- Подключаем ротатор -->
-<script src="http://ssp3.adcamp.ru/loader.js" type="text/javascript">
+<script src="http://ssp.adcamp.ru/static/loader.js" type="text/javascript"></script>
 ```
 * * *
 ### Рекламные блоки

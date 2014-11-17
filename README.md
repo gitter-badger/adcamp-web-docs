@@ -1,4 +1,4 @@
-# Интеграция SDK AdCamp в WEB
+# Интеграция SDK AdCamp в WEB [ ![Codeship Status for anhile/adcamp-web-docs](https://codeship.com/projects/67185540-5079-0132-17a2-66df49ff6485/status)](https://codeship.com/projects/48032)
 
 ### Подключение ротатора
 SDK AdCamp для мобильных WEB-страниц позволяет разработчикам размещать статичные и интерактивные рекламные объявления на своем сайте. Для начала необходимо подключить скрипт ротатации. 

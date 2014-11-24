@@ -25,3 +25,38 @@ window.parent.document.body.append(script);
 <a class="clickarea" target="_blank">Target</a>
 ```
 * * *
+
+
+# Методы для работы с mraid
+#### mraid.getState()
+Возвращает текущее состояние баннера (string)
+Возможные значения: loading (default), default, expanded, resized, hidden
+
+#### mraid.getPlacementType()
+Возвращает тип плейсмента (string)
+Возможные значения: inline, interstitial
+
+#### mraid.getScreenSize()
+Возвращает объект с размерами экрана (object)
+{width: (int), height: (int)}
+
+#### mraid.getCurrentPosition()
+Возвращает объект с размерами креатива и его отступами по осям (object)
+{x: (int), y: (int), width: (int), height: (int)}
+
+#### mraid.getExpandProperties()
+Возвращает объект с настройками expand состояния (object)
+{width: (int), height: (int), useCustomClose: (bool), isModal: (bool)}
+
+#### mraid.isViewable()
+Возвращает видимость объекта (bool)
+
+#### mraid.getOrientationProperties()
+Возвращает объект с параметрами смены ориентации объекта (bool)
+
+
+#### mraid.addEventListener
+Назначает слушатель на событие
+
+#### mraid.removeEventListener
+Назначает слушатель на событие

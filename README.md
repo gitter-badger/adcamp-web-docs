@@ -17,17 +17,16 @@ window.parent.document.body.append(script);
 **Неправильно:**
 ```
 <a href="http://example.com" target="_blank">Target</a>
-<a onclick="mraid.open('http://example.com')" target="_blank">Target</a>
+<div onclick="mraid.open('http://example.com')">Target</div>
 ```
 **Правильно:**
 ```
 // К этому элементу будет добавлен линк с нашим баунсером
-<a class="adc_clickarea" target="_blank">Target</a>
+<div class="adc_clickarea">Target</div>
 ```
 * * *
 
-
-# Методы для работы с mraid в Web SDK
+### Методы для работы с mraid в Web SDK
 
 Методы копируют поведение mraid.js для приложений. [Спецификация MRAID](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)
 #### mraid.getState()

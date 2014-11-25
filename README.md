@@ -43,6 +43,10 @@ mraid.setResizeProperties(resizeProperties);
 mraid.resize(); 
 ```
 * * *
+### Закрытие рекламы
+Уничтожение рекламы должно происходить только с помощью mraid.close(), в противном случае после закрытия баннера останется обертка.
+
+* * *
 ### Методы для работы с mraid в Web SDK
 
 Методы копируют поведение mraid.js для приложений. [Спецификация MRAID](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)

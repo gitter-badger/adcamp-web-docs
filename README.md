@@ -28,6 +28,7 @@ window.parent.document.body.append(script);
 
 ### Resize
 Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
+
 **Пример:**
 ```
   var screenSize = mraid.getScreenSize(); 

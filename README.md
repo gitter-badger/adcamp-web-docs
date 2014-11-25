@@ -26,6 +26,22 @@ window.parent.document.body.append(script);
 ```
 * * *
 
+### Resize
+Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
+**Пример:**
+```
+  var screenSize = mraid.getScreenSize(); 
+  var resizeProperties = { 
+    "width": screenSize.width, 
+    "height": screenSize.height/2, 
+    "offsetX": 0,
+    "offsetY": screenSize.height/10, 
+    "allowOffscreen": false 
+  }
+mraid.setResizeProperties(resizeProperties);
+mraid.resize(); 
+```
+* * *
 ### Методы для работы с mraid в Web SDK
 
 Методы копируют поведение mraid.js для приложений. [Спецификация MRAID](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)

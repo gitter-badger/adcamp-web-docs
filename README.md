@@ -27,14 +27,16 @@ window.parent.document.body.append(script);
 * * *
 
 
-# Методы для работы с mraid
+# Методы для работы с mraid в Web SDK
+
+Методы копируют поведение mraid.js для приложений. [Спецификация MRAID](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)
 #### mraid.getState()
 Возвращает текущее состояние баннера (string)
-Возможные значения: loading (default), default, expanded, resized, hidden
+Возвращаемые значения: loading (default), default, expanded, resized, hidden
 
 #### mraid.getPlacementType()
 Возвращает тип плейсмента (string)
-Возможные значения: inline, interstitial
+Возвращаемые значения: inline, interstitial
 
 #### mraid.getScreenSize()
 Возвращает объект с размерами экрана (object)
@@ -54,9 +56,20 @@ window.parent.document.body.append(script);
 #### mraid.getOrientationProperties()
 Возвращает объект с параметрами смены ориентации объекта (bool)
 
+#### mraid.setOrientationProperties(allowOrientationChange(bool), forceOrientation (str))
+Возвращает объект с параметрами смены ориентации объекта (bool)
 
-#### mraid.addEventListener
+#### mraid.addEventListener(event, handler)
 Назначает слушатель на событие
 
-#### mraid.removeEventListener
-Назначает слушатель на событие
+#### mraid.removeEventListener(event)
+Уничтожает слушателя событие
+
+#### mraid.expand()
+Разворачивает фрейм на весь экран
+
+#### mraid.close()
+Если состояние expanded - возвращает в default, иначе - аналогичен mraid.destroy()
+
+#### mraid.destroy()
+Уничтожает фрейм

@@ -12,7 +12,7 @@ window.parent.document.body.append(script);
 * * *
 
 ### Destination link
-Для корректного взаимодействия с системой статистики, все ссылки на целевое действие должны быть отмечены классом "clickarea".
+Для корректного взаимодействия с системой статистики, все ссылки на целевое действие должны быть отмечены классом "adc_clickarea".
 
 **Неправильно:**
 ```
@@ -22,7 +22,7 @@ window.parent.document.body.append(script);
 **Правильно:**
 ```
 // К этому элементу будет добавлен линк с нашим баунсером
-<a class="clickarea" target="_blank">Target</a>
+<a class="adc_clickarea" target="_blank">Target</a>
 ```
 * * *
 

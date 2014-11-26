@@ -1,14 +1,73 @@
-# Документация к Web SDK Adcamp
+# Документация Web SDK Adcamp
 
 - О технологии
 - Технические требования
 - Перечень методов
+  - mraid.getState()
+  - mraid.getPlacementType()
+  - mraid.getScreenSize()
+  - mraid.getCurrentPosition()
+  - mraid.getExpandProperties()
+  - mraid.isViewable()
+  - mraid.getOrientationProperties()
+  - mraid.setOrientationProperties()
+  - mraid.addEventListener()
+  - mraid.removeEventListener()
+  - mraid.expand()
+  - mraid.close()
+  - mraid.destroy()
+  - mraid.useCustomClose()
 
+
+
+***
 ## О технологии
-Технология MRAID([Спецификация](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)) была создана IAB для взаимодействия веб-содержимого и native кода в мобильных приложениях. WEB SDK Adcamp наследует большинство ее методов, позволяя использовать MRAID креативы и в веб-браузерах.
+Технология MRAID ([Спецификация](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)) была создана [IAB](http://www.iab.net/) для взаимодействия веб-содержимого и native кода в мобильных приложениях. WEB SDK Adcamp наследует большинство ее методов, позволяя использовать MRAID креативы и в веб-браузерах.
 
-Для начала работы с SDK, на странице необходимо подключить загрузчик и указать блоки с параметрами, в которых
+Для начала работы с SDK, на странице необходимо подключить загрузчик и указать блоки с параметрами ([подробнее о установке кода](https://github.com/adcamp/web-sdk)).
 Вместо предопределенного контейнера в приложении, SDK использует iframe для показа креативов, что накладывает некоторые требования к разработчику креативов.
+***
+## Технические требования
+
+#### Изолированная среда для креатива
+В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe.
+
+**Неправильно:**
+```
+window.parent.document.body.append(script);
+```
+**Правильно:**
+```
+document.body.append(script);
+```
+Также iframe накладывает ограничения, не свойственные корневому окну, поэтому необходимо удостовериться в корректной работе креатива из third-party фрейма.
+* * *
+#### Проверка нативных возможностей
+Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие необходимых методов, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
+```
+function canvasSupport(){
+  return !!document.createElement('canvas').getContext; };
+  if(!canvasSupport()){
+    var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
+  return;
+};
+```
+* * *
+#### Resize
+Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
+**Пример:**
+```
+  var screenSize = mraid.getScreenSize(); 
+  var resizeProperties = { 
+    "width": screenSize.width, 
+    "height": screenSize.height/2, 
+    "offsetX": 0,
+    "offsetY": screenSize.height/10, 
+    "allowOffscreen": false 
+  }
+mraid.setResizeProperties(resizeProperties);
+mraid.resize(); 
+```
 * * *
 ## Методы для работы с mraid в Web SDK
 
@@ -73,46 +132,4 @@
 #### mraid.useCustomClose(bool)
 Если в шаблоне объявлен mraid.useCustomClose(true), то крестик показан не будет, однако область скрытия останется в правом верхнем углу.
 ***
-
-## Технические требования
-
-#### Изолированная среда для креатива
-В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe.
-
-**Неправильно:**
-```
-window.parent.document.body.append(script);
-```
-**Правильно:**
-```
-document.body.append(script);
-```
-Также iframe накладывает ограничения, не свойственные корневому окну, поэтому необходимо удостовериться в корректной работе креатива из third-party фрейма.
-* * *
-#### Проверка нативных возможностей
-Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие необходимых методов, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
-```
-function canvasSupport(){
-  return !!document.createElement('canvas').getContext; };
-  if(!canvasSupport()){
-    var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
-  return;
-};
-```
-* * *
-#### Resize
-Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
-**Пример:**
-```
-  var screenSize = mraid.getScreenSize(); 
-  var resizeProperties = { 
-    "width": screenSize.width, 
-    "height": screenSize.height/2, 
-    "offsetX": 0,
-    "offsetY": screenSize.height/10, 
-    "allowOffscreen": false 
-  }
-mraid.setResizeProperties(resizeProperties);
-mraid.resize(); 
-```
 

@@ -28,23 +28,6 @@
 
 ***
 ## <a name="requirments"></a>Технические требования
-#### Обертка для креатива
-Креатив должен находится в обертке с ID и не содержать глобальных тегов head, body, указания доктайпа etc.
-* * *
-#### Конкатенация скриптов и стилей
-В целях оптимизации времени загрузки, рекомендуется помещать все скрипты и стили в конкатенированные файлы.
-
-**Плохо:**
-```
-<script type="text/javascript" src="http://example.com/part1.js"></script>
-<script type="text/javascript" src="http://example.com/part2.js"></script>
-<script type="text/javascript" src="http://example.com/part3.js"></script>
-```
-**Хорошо:**
-```
-<script type="text/javascript" src="http://example.com/all.js"></script>
-```
-* * *
 #### Обращение к родительской странице
 В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe. Все скрипты должны работать относительно обертки креатива.
 
@@ -69,6 +52,23 @@ function canvasSupport(){
     var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
   return;
 };
+```
+* * *
+#### Обертка для креатива
+Креатив должен находится в обертке с ID и не содержать глобальных тегов head, body, указания доктайпа etc.
+* * *
+#### Конкатенация скриптов и стилей
+В целях оптимизации времени загрузки, рекомендуется помещать все скрипты и стили в конкатенированные файлы.
+
+**Плохо:**
+```
+<script type="text/javascript" src="http://example.com/part1.js"></script>
+<script type="text/javascript" src="http://example.com/part2.js"></script>
+<script type="text/javascript" src="http://example.com/part3.js"></script>
+```
+**Хорошо:**
+```
+<script type="text/javascript" src="http://example.com/all.js"></script>
 ```
 * * *
 ## <a name="methods"></a>Перечень методов

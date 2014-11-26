@@ -22,13 +22,12 @@
 
 ***
 ## О технологии
-Технология MRAID ([Спецификация](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)) была создана [IAB](http://www.iab.net/) для взаимодействия веб-содержимого и native кода в мобильных приложениях. WEB SDK Adcamp наследует большинство ее методов, позволяя использовать MRAID креативы и в веб-браузерах.
+Технология MRAID ([официальная документация](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)) была создана [IAB](http://www.iab.net/) для взаимодействия веб-содержимого и native кода в мобильных приложениях (получение размеров экрана, отслеживание событий etc). WEB SDK Adcamp наследует большинство ее методов, позволяя использовать MRAID креативы и в веб-браузерах.
 
 Для начала работы с SDK, на странице необходимо подключить загрузчик и указать блоки с параметрами ([подробнее о установке кода](https://github.com/adcamp/web-sdk)).
 Вместо предопределенного контейнера в приложении, SDK использует iframe для показа креативов, что накладывает некоторые требования к разработчику креативов.
 ***
 ## Технические требования
-
 #### Изолированная среда для креатива
 В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe.
 
@@ -51,22 +50,6 @@ function canvasSupport(){
     var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
   return;
 };
-```
-* * *
-#### Resize
-Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
-**Пример:**
-```
-  var screenSize = mraid.getScreenSize(); 
-  var resizeProperties = { 
-    "width": screenSize.width, 
-    "height": screenSize.height/2, 
-    "offsetX": 0,
-    "offsetY": screenSize.height/10, 
-    "allowOffscreen": false 
-  }
-mraid.setResizeProperties(resizeProperties);
-mraid.resize(); 
 ```
 * * *
 ## Методы для работы с mraid в Web SDK
@@ -131,8 +114,20 @@ mraid.resize();
 Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close(). Включает триггер expand и меняет состояние креатива на expanded.
 
 #### mraid.resize()
-Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized
-
+Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод.
+**Пример:**
+```
+  var screenSize = mraid.getScreenSize(); 
+  var resizeProperties = { 
+    "width": screenSize.width, 
+    "height": screenSize.height/2, 
+    "offsetX": 0,
+    "offsetY": screenSize.height/10, 
+    "allowOffscreen": false 
+  }
+mraid.setResizeProperties(resizeProperties);
+mraid.resize(); 
+```
 #### mraid.close()
 Если состояние expanded - возвращает в default, иначе - аналогичен методу mraid.destroy(). Уничтожение рекламы должно происходить только с помощью этого, в противном случае после закрытия баннера останется обертка.
 

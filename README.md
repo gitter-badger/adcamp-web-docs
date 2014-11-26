@@ -99,6 +99,7 @@ function canvasSupport(){
 
 #### mraid.resize()
 Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод.
+
 **Пример:**
 ```
   var screenSize = mraid.getScreenSize(); 
@@ -162,5 +163,4 @@ mraid.resize();
 
 #### mraid.useCustomClose(bool)
 Если в шаблоне объявлен mraid.useCustomClose(true), то крестик показан не будет, однако область скрытия останется в правом верхнем углу.
-***
 

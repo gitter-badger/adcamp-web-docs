@@ -54,7 +54,43 @@ function canvasSupport(){
 * * *
 ## <a name="methods"></a>Перечень методов
 
-Методы копируют поведение mraid.js для приложений. [Спецификация MRAID](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)
+#### mraid.open(target(string))
+Совершает открывает цель (первый аргумент) в новом окне. Для правильного подсчета статистики, не разрешается использовать аргумент, отличный от переменной clickURL. Метод не может вызываться при загрузке страницы без совершения целевого действия и вешается на слушатели событий. В DOM вместо явного указания атрибута onclick можно использовать класс "adc_clickarea": в выбранные элементы слушатели добавятся автоматически.
+**Неправильно:**
+```
+<a href="http://example.com" target="_blank">Target</a>
+<div onclick="mraid.open('http://example.com')">Target</div>
+```
+**Правильно:**
+```
+<a onclick="mraid.open(clickURL)" target="_blank">Target</a>
+<div class="adc_clickarea">Target</div>
+```
+
+#### mraid.expand()
+Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close(). Включает триггер expand и меняет состояние креатива на expanded.
+
+#### mraid.resize()
+Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод.
+**Пример:**
+```
+  var screenSize = mraid.getScreenSize(); 
+  var resizeProperties = { 
+    "width": screenSize.width, 
+    "height": screenSize.height/2, 
+    "offsetX": 0,
+    "offsetY": screenSize.height/10, 
+    "allowOffscreen": false 
+  }
+mraid.setResizeProperties(resizeProperties);
+mraid.resize(); 
+```
+#### mraid.close()
+Если состояние expanded - возвращает в default, иначе - аналогичен методу mraid.destroy(). Уничтожение рекламы должно происходить только с помощью этого, в противном случае после закрытия баннера останется обертка.
+
+#### mraid.destroy()
+Уничтожает фрейм из любого состояния.
+
 #### mraid.getState()
 Возвращает текущее состояние баннера (string)
 Возвращаемые значения: loading (default), default, expanded, resized, hidden
@@ -96,43 +132,6 @@ function canvasSupport(){
 
 #### mraid.removeEventListener(event)
 Уничтожает слушателя события
-
-#### mraid.open(target(string))
-Совершает открывает цель (первый аргумент) в новом окне. Для правильного подсчета статистики, не разрешается использовать аргумент, отличный от переменной clickURL. Метод не может вызываться при загрузке страницы без совершения целевого действия и вешается на слушатели событий. В DOM вместо явного указания атрибута onclick можно использовать класс "adc_clickarea": в выбранные элементы слушатели добавятся автоматически.
-**Неправильно:**
-```
-<a href="http://example.com" target="_blank">Target</a>
-<div onclick="mraid.open('http://example.com')">Target</div>
-```
-**Правильно:**
-```
-<a onclick="mraid.open(clickURL)" target="_blank">Target</a>
-<div class="adc_clickarea">Target</div>
-```
-
-#### mraid.expand()
-Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close(). Включает триггер expand и меняет состояние креатива на expanded.
-
-#### mraid.resize()
-Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод.
-**Пример:**
-```
-  var screenSize = mraid.getScreenSize(); 
-  var resizeProperties = { 
-    "width": screenSize.width, 
-    "height": screenSize.height/2, 
-    "offsetX": 0,
-    "offsetY": screenSize.height/10, 
-    "allowOffscreen": false 
-  }
-mraid.setResizeProperties(resizeProperties);
-mraid.resize(); 
-```
-#### mraid.close()
-Если состояние expanded - возвращает в default, иначе - аналогичен методу mraid.destroy(). Уничтожение рекламы должно происходить только с помощью этого, в противном случае после закрытия баннера останется обертка.
-
-#### mraid.destroy()
-Уничтожает фрейм из любого состояния.
 
 #### mraid.useCustomClose(bool)
 Если в шаблоне объявлен mraid.useCustomClose(true), то крестик показан не будет, однако область скрытия останется в правом верхнем углу.

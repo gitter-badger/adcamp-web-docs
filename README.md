@@ -92,6 +92,10 @@ mraid.resize();
 Возвращает объект с настройками expand состояния (object)
 {width: (int), height: (int), useCustomClose: (bool), isModal: (bool)}
 
+#### mraid.getResizeProperties()
+Возвращает объект с настройками expand состояния (object)
+{x: (int), y: (int), width: (int), height: (int)}
+
 #### mraid.isViewable()
 Возвращает видимость объекта (bool)
 
@@ -99,7 +103,10 @@ mraid.resize();
 Возвращает объект с параметрами смены ориентации объекта (bool)
 
 #### mraid.setOrientationProperties(allowOrientationChange(bool), forceOrientation (str))
-Возвращает объект с параметрами смены ориентации объекта (bool)
+Назначает параметры смены ориентации объекта
+
+#### mraid.setOrientationProperties({x: (int), y: (int), width: (int), height: (int)})
+Назначает параметры для смены размера креатива
 
 #### mraid.addEventListener(event, handler)
 Назначает слушателя события
@@ -121,7 +128,10 @@ mraid.resize();
 ```
 
 #### mraid.expand()
-Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close()
+Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close(). Включает триггер expand и меняет состояние креатива на expanded.
+
+#### mraid.resize()
+Производит смену размера креатива на основе объекта mraid.getResizeProperties(). Включает триггер resize и меняет состояние креатива на resized
 
 #### mraid.close()
 Если состояние expanded - возвращает в default, иначе - аналогичен методу mraid.destroy(). Уничтожение рекламы должно происходить только с помощью этого, в противном случае после закрытия баннера останется обертка.

@@ -1,68 +1,14 @@
-# Технические требования SDK Adcamp к HTML5/Mraid баннерам
+# Документация к Web SDK Adcamp
 
-### Изолированная среда для креатива
-В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe.
+- О технологии
+- Технические требования
+- Перечень методов
 
-**Неправильно:**
-```
-window.parent.document.body.append(script);
-```
+### О технологии
+Технология MRAID([Спецификация](http://www.iab.net/media/file/IAB_MRAID_v2_FINAL.pdf)) была создана IAB для взаимодействия веб-содержимого и native кода в мобильных приложениях. WEB SDK Adcamp наследует большинство ее методов, позволяя использовать MRAID креативы и в веб-браузерах.
 
-Также iframe накладывает ограничения, не свойственные корневому окну, поэтому необходимо удостовериться в корректной работе креатива из third-party фрейма.
-* * *
-
-### Destination link
-Для корректного взаимодействия с системой статистики, все ссылки на целевое действие должны быть отмечены классом "adc_clickarea".
-
-**Неправильно:**
-```
-<a href="http://example.com" target="_blank">Target</a>
-<div onclick="mraid.open('http://example.com')">Target</div>
-```
-**Правильно:**
-```
-// К этому элементу будет добавлен линк с нашим баунсером
-<div class="adc_clickarea">Target</div>
-```
-* * *
-### Создание креатива
-mraid.open() не должен вызываться при инициализации, иначе загрузчик выбросит исключение.
-* * *
-### Собственное событие close
-Если в шаблоне объявлен mraid.useCustomClose(true), то крестик показан не будет, однако область скрытия останется в правом верхнем углу.
-* * *
-### Проверка нативных возможностей
-Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие необходимых методов, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
-```
-function canvasSupport(){
-  return !!document.createElement('canvas').getContext; };
-  if(!canvasSupport()){
-    var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
-  return;
-};
-```
-* * *
-### Resize
-Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
-**Пример:**
-```
-  var screenSize = mraid.getScreenSize(); 
-  var resizeProperties = { 
-    "width": screenSize.width, 
-    "height": screenSize.height/2, 
-    "offsetX": 0,
-    "offsetY": screenSize.height/10, 
-    "allowOffscreen": false 
-  }
-mraid.setResizeProperties(resizeProperties);
-mraid.resize(); 
-```
-* * *
-### Вызов развернутого состояния
-mraid.expand() не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close()
-* * *
-### Закрытие рекламы
-Уничтожение рекламы должно происходить только с помощью mraid.close(), в противном случае после закрытия баннера останется обертка.
+Для начала работы с SDK, на странице необходимо подключить загрузчик и указать блоки с параметрами, в которых
+Вместо предопределенного контейнера в приложении, SDK использует iframe для показа креативов, что накладывает некоторые требования к разработчику креативов.
 * * *
 ### Методы для работы с mraid в Web SDK
 
@@ -97,16 +43,76 @@ mraid.expand() не может вызываться из состояния expa
 Возвращает объект с параметрами смены ориентации объекта (bool)
 
 #### mraid.addEventListener(event, handler)
-Назначает слушатель на событие
+Назначает слушателя события
 
 #### mraid.removeEventListener(event)
-Уничтожает слушателя событие
+Уничтожает слушателя события
+
+#### mraid.open(target(string))
+Совершает открывает цель (первый аргумент) в новом окне. Для правильного подсчета статистики, не разрешается использовать аргумент, отличный от переменной clickURL. Метод не может вызываться при загрузке страницы без совершения целевого действия и вешается на слушатели событий. В DOM вместо явного указания атрибута onclick можно использовать класс "adc_clickarea": в выбранные элементы слушатели добавятся автоматически.
+**Неправильно:**
+```
+<a href="http://example.com" target="_blank">Target</a>
+<div onclick="mraid.open('http://example.com')">Target</div>
+```
+**Правильно:**
+```
+<a onclick="mraid.open(clickURL)" target="_blank">Target</a>
+<div class="adc_clickarea">Target</div>
+```
 
 #### mraid.expand()
-Разворачивает фрейм на весь экран
+Разворачивает фрейм на весь экран. Метод не может вызываться из состояния expanded, для возврата в состояние default необходимо использовать close()
 
 #### mraid.close()
-Если состояние expanded - возвращает в default, иначе - аналогичен mraid.destroy()
+Если состояние expanded - возвращает в default, иначе - аналогичен методу mraid.destroy(). Уничтожение рекламы должно происходить только с помощью этого, в противном случае после закрытия баннера останется обертка.
 
 #### mraid.destroy()
-Уничтожает фрейм
+Уничтожает фрейм из любого состояния.
+
+#### mraid.useCustomClose(bool)
+Если в шаблоне объявлен mraid.useCustomClose(true), то крестик показан не будет, однако область скрытия останется в правом верхнем углу.
+***
+
+### Технические требования
+
+#### Изолированная среда для креатива
+В целях безопасности площадки рекламодателя, в Web SDK запрещается обращение к родительского странице из созданного iframe.
+
+**Неправильно:**
+```
+window.parent.document.body.append(script);
+```
+**Правильно:**
+```
+document.body.append(script);
+```
+Также iframe накладывает ограничения, не свойственные корневому окну, поэтому необходимо удостовериться в корректной работе креатива из third-party фрейма.
+* * *
+#### Проверка нативных возможностей
+Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие необходимых методов, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
+```
+function canvasSupport(){
+  return !!document.createElement('canvas').getContext; };
+  if(!canvasSupport()){
+    var fallback = document.getElementById('fallback'); fallback.src = imagePath + 'backup.jpg';
+  return;
+};
+```
+* * *
+### Resize
+Для изменения размера креатива необходимо назначить новые параметры для ресайза и выполнить метод mraid.resize()
+**Пример:**
+```
+  var screenSize = mraid.getScreenSize(); 
+  var resizeProperties = { 
+    "width": screenSize.width, 
+    "height": screenSize.height/2, 
+    "offsetX": 0,
+    "offsetY": screenSize.height/10, 
+    "allowOffscreen": false 
+  }
+mraid.setResizeProperties(resizeProperties);
+mraid.resize(); 
+```
+

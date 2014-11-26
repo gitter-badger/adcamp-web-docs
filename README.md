@@ -51,7 +51,7 @@ document.body.getElementById('custom_creative').append(script);
 * * *
 
 #### <a name="req2"></a> Проверка нативных возможностей
-Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие необходимых методов, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
+Если креатив планируется использовать для нескольких SDK, необходимо проверять наличие методов свойственных мобильным приложениям, таких как createCalendarEvent, storePicture etc и вырезать для использования в Web SDK. Это касается и поддержки HTML5:
 ```
 function canvasSupport(){
   return !!document.createElement('canvas').getContext; };
